@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Now - Glossary Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    .shadow-sm {
+      transition: transform 0.2s;
+    }
+
+    .shadow-sm:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="./images/logo.jpg" alt="Logo" width="50" height="50" class="me-2">
+        <span class="fw-bold">FRESH Supermarket</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Buy Now Section -->
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Complete Your Purchase</h2>
+    <div class="row">
+      <!-- Product Details -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <img id="productImage" class="card-img-top" alt="Product Image">
+          <div class="card-body">
+            <h5 id="productName" class="card-title"></h5>
+            <p id="productDescription" class="card-text"></p>
+            <p><strong>Price:</strong> <span id="productPrice"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purchase Form -->
+      <div class="col-md-6">
+        <h4>Order Details</h4>
+        <form>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity (in kg/unit)</label>
+            <input type="number" id="quantity" class="form-control" value="1" min="1">
+          </div>
+          <div class="mb-3">
+            <label for="totalPrice" class="form-label">Total Price</label>
+            <input type="text" id="totalPrice" class="form-control" readonly>
+          </div>
+          <button type="button" class="btn btn-success w-100">Proceed to Payment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-light text-center py-3">
+    <div class="container">
+      <p>&copy; 2024 Glossary Shop. All Rights Reserved.</p>
+      <p>Contact: info@glossaryshop.com</p>
+    </div>
+  </footer>
+
+  <script>
+    // Parse URL Parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get('name');
+    const productDescription = urlParams.get('description');
+    const productPrice = urlParams.get('price');
+    const productImage = urlParams.get('image');
+
+    // Populate Product Details
+    document.getElementById('productName').textContent = productName || 'Product Name';
+    document.getElementById('productDescription').textContent = productDescription || 'Product Description';
+    document.getElementById('productPrice').textContent = productPrice ? `₹${productPrice}` : '₹0';
+    document.getElementById('productImage').src = productImage || './images/default.png';
+
+    // Update Total Price Dynamically
+    const quantityInput = document.getElementById('quantity');
+    const totalPriceInput = document.getElementById('totalPrice');
+    const price = parseFloat(productPrice) || 0;
+
+    const updateTotalPrice = () => {
+      const quantity = parseInt(quantityInput.value, 10) || 0;
+      const total = quantity * price;
+      totalPriceInput.value = `₹${total.toFixed(2)}`;
+    };
+
+    quantityInput.addEventListener('input', updateTotalPrice);
+    updateTotalPrice();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
